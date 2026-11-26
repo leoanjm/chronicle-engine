@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 잠금 화면은 평문으로 공개된다. 내용을 짐작할 설명을 넣지 않고 검색 노출도 막는다. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>Chronicle Engine</title>
+    <script>
+      // 앱(index.html)과 같은 규칙: ?theme=light|dark가 있으면 그 테마로, 아니면 저장한 테마. 기본은 다크.
+      try {
+        var asked = new URLSearchParams(location.search).get('theme')
+        if (asked === 'light' || asked === 'dark') document.documentElement.dataset.theme = asked
+        else if (localStorage.getItem('chronicle_theme') === 'light') document.documentElement.dataset.theme = 'light'
+      } catch (_) { /* 저장소를 못 써도 다크 테마로 동작한다. */ }
+    </script>
+    <script type="module" crossorigin src="./assets/gate-YOT3mv2V.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/gate-B1NI2pcL.css">
+  </head>
+  <body>
+    <main id="gate" class="gate">
+      <button id="gate-theme" class="gate-theme" type="button">☀ 밝은 테마</button>
+      <div class="gate-brand">
+        <svg class="gate-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect width="32" height="32" rx="7" fill="var(--surface)" stroke="var(--line)" />
+          <circle cx="16" cy="16" r="9.5" fill="none" stroke="var(--accent)" stroke-width="2.2" />
+          <path d="M16 9.5v6.5l4.5 3" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="16" cy="16" r="1.6" fill="var(--gold)" />
+        </svg>
+        <h1>Chronicle Engine</h1>
+      </div>
+      <p class="gate-sub">내용은 암호화되어 있습니다. 비밀번호를 입력하세요.</p>
+      <!--
+        비밀번호가 주소(?password=…)로 서버에 가지 않도록 세 겹으로 막는다:
+        브라우저 기본 제출을 끄고(onsubmit), 입력란에 name을 두지 않고, 스크립트가 준비될 때까지 입력을 막는다(disabled).
+      -->
+      <form id="gate-form" class="gate-form" onsubmit="return false">
+        <label class="gate-label" for="gate-pass">비밀번호</label>
+        <input
+          id="gate-pass"
+          class="gate-input"
+          type="password"
+          autocomplete="current-password"
+          autocapitalize="off"
+          spellcheck="false"
+          disabled
+        />
+        <button id="gate-go" class="gate-submit" type="submit" disabled>열기</button>
+        <p id="gate-msg" class="gate-msg" role="status" aria-live="polite">불러오는 중…</p>
+      </form>
+    </main>
+    <div id="root"></div>
+    <noscript>이 대시보드는 JavaScript가 켜져 있어야 볼 수 있다.</noscript>
+  </body>
+</html>
